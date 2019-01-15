@@ -75,15 +75,15 @@ ORDER BY spread DESC, title
 
 -- Question 9:
 -- Find the difference between the average rating of movies released before 1980 and the average rating of movies released after 1980. 
-SELECT AVG(stars_1)-AVG(stars_2)
-FROM (  
-        SELECT AVG(stars) AS stars_1
-        FROM Movie JOIN Rating USING(mID)
-        GROUP BY mID
-        HAVING year < 1980),
+SELECT AVG(avg_before) - AVG(avg_after)
+FROM (
+    SELECT AVG(stars) AS avg_before
+    from Rating natural JOIN Movie
+    WHERE year < 1980 
+    GROUP BY mID),
     (
-        SELECT AVG(stars) AS stars_2
-        FROM Movie JOIN Rating USING(mID)
-        GROUP BY mID
-        HAVING year >= 1980)
-        
+    SELECT AVG(stars) AS avg_after
+    from Rating natural JOIN Movie
+    WHERE year > 1980 
+    GROUP BY mID)
+

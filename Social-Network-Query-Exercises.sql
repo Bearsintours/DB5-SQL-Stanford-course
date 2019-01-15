@@ -23,7 +23,7 @@ WHERE (
 
 -- Question 3:
 -- For every pair of students who both like each other, return the name and grade of both students. 
-Include each pair only once, with the two names in alphabetical order. 
+-- Include each pair only once, with the two names in alphabetical order. 
 SELECT hs1.name, hs1.grade, hs2.name, hs2.grade
 FROM Highschooler hs1, Highschooler hs2, Likes l1, Likes l2
 WHERE L1.ID1 = hs1.ID AND L1.ID2 = hs2.ID AND l1.ID1 = l2.ID2 AND l1.ID2 = l2.ID1 AND hs1.name < hs2.name

@@ -1,0 +1,34 @@
+-- SQL Social-Network Modification Exercises
+-- https://lagunita.stanford.edu/courses/DB/SQL/SelfPaced/courseware/ch-sql/seq-exercise-sql_social_mod/
+
+
+-- Question 1: It's time for the seniors to graduate. Remove all 12th graders from Highschooler. 
+DELETE FROM Highschooler
+WHERE grade = 12
+
+
+-- Question 2: If two students A and B are friends, and A likes B but not vice-versa, remove the Likes tuple. 
+DELETE FROM Likes
+WHERE Likes.ID1 IN (
+    SELECT f.ID2 
+    FROM Friend f
+    WHERE f.ID1 = Likes.ID2)
+AND Likes.ID2 IN (
+    SELECT l1.ID2
+    FROM Likes l1
+    WHERE l1.ID1 = Likes.ID1)
+AND NOT Likes.ID1 IN (
+    SELECT l2.ID2
+    FROM Likes l2
+    WHERE l2.ID1 = Likes.ID2)
+    
+    
+-- Question 3: For all cases where A is friends with B, and B is friends with C, add a new friendship for the pair A and C. 
+-- Do not add duplicate friendships, friendships that already exist, or friendships with oneself.
+INSERT INTO friend
+SELECT f1.id1, f2.id2
+FROM friend f1, friend f2 
+WHERE f1.id2 = f2.id1 AND f1.id1 <> f2.id2
+EXCEPT
+SELECT * FROM friend
+    
